@@ -1,0 +1,80 @@
+{
+  "sections": {
+    "queemchi_hero": {
+      "type": "queemchi-hero",
+      "blocks": {
+        "tile_1": { "type": "image_tile" },
+        "tile_2": { "type": "image_tile" },
+        "tile_3": { "type": "image_tile" },
+        "tile_4": { "type": "image_tile" },
+        "tile_5": { "type": "image_tile" },
+        "tile_6": { "type": "image_tile" }
+      },
+      "block_order": ["tile_1", "tile_2", "tile_3", "tile_4", "tile_5", "tile_6"],
+      "settings": {}
+    },
+    "queemchi_single_product": {
+      "type": "queemchi-single-product",
+      "settings": {}
+    },
+    "queemchi_benefits": {
+      "type": "queemchi-benefits",
+      "blocks": {
+        "benefit_1": { "type": "benefit" },
+        "benefit_2": { "type": "benefit" },
+        "benefit_3": { "type": "benefit" }
+      },
+      "block_order": ["benefit_1", "benefit_2", "benefit_3"],
+      "settings": {}
+    },
+    "queemchi_fermentation": {
+      "type": "queemchi-fermentation",
+      "blocks": {
+        "step_1": { "type": "step" },
+        "step_2": { "type": "step" },
+        "step_3": { "type": "step" }
+      },
+      "block_order": ["step_1", "step_2", "step_3"],
+      "settings": {}
+    },
+    "queemchi_how_to_eat": {
+      "type": "queemchi-how-to-eat",
+      "blocks": {
+        "idea_1": { "type": "idea" },
+        "idea_2": { "type": "idea" },
+        "idea_3": { "type": "idea" },
+        "idea_4": { "type": "idea" }
+      },
+      "block_order": ["idea_1", "idea_2", "idea_3", "idea_4"],
+      "settings": {}
+    },
+    "queemchi_social_proof": {
+      "type": "queemchi-social-proof",
+      "blocks": {
+        "testimonial_1": { "type": "testimonial" },
+        "testimonial_2": { "type": "testimonial" },
+        "testimonial_3": { "type": "testimonial" }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"],
+      "settings": {}
+    },
+    "queemchi_coming_soon": {
+      "type": "queemchi-coming-soon",
+      "settings": {}
+    },
+    "queemchi_final_cta": {
+      "type": "queemchi-final-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "queemchi_hero",
+    "queemchi_single_product",
+    "queemchi_benefits",
+    "queemchi_fermentation",
+    "queemchi_how_to_eat",
+    "queemchi_social_proof",
+    "queemchi_coming_soon",
+    "queemchi_final_cta"
+  ]
+}

@@ -1,0 +1,63 @@
+<section id="producto-{{ section.id }}" data-qm-section="product" class="tw-bg-[#fff7f5] tw-px-5 tw-py-16 md:tw-py-24">
+  <div class="tw-mx-auto tw-grid tw-max-w-7xl tw-gap-10 md:tw-grid-cols-2 md:tw-items-center">
+    <div data-qm-reveal class="tw-order-2 md:tw-order-1">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'tw-w-full tw-rounded-[2rem] tw-object-cover tw-shadow-xl', alt: section.settings.image_alt }}
+      {% else %}
+        <div class="tw-aspect-square tw-rounded-[2rem] tw-bg-[#f5a79e]"></div>
+      {% endif %}
+    </div>
+    <div data-qm-reveal class="tw-order-1 md:tw-order-2">
+      <p class="tw-mb-4 tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.18em] tw-text-[#e03d54]">{{ section.settings.eyebrow | escape }}</p>
+      <h2 class="tw-text-4xl tw-font-black tw-leading-tight tw-text-[#e03d54] md:tw-text-6xl">{{ section.settings.heading | escape }}</h2>
+      <div class="tw-mt-6 tw-text-lg tw-leading-8 tw-text-[#7a2932]">{{ section.settings.text }}</div>
+      <div class="tw-mt-8 tw-grid tw-gap-3 sm:tw-grid-cols-2">
+        {% for block in section.blocks %}
+          <div data-qm-card class="tw-rounded-2xl tw-border tw-border-[#f5a79e] tw-bg-white tw-p-5" {{ block.shopify_attributes }}>
+            <h3 class="tw-text-lg tw-font-black tw-text-[#e03d54]">{{ block.settings.title | escape }}</h3>
+            <p class="tw-mt-2 tw-text-sm tw-leading-6 tw-text-[#7a2932]">{{ block.settings.text | escape }}</p>
+          </div>
+        {% endfor %}
+      </div>
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link | default: '#pricing' }}" class="tw-mt-8 tw-inline-flex tw-rounded-full tw-bg-[#e03d54] tw-px-7 tw-py-4 tw-font-extrabold tw-text-white hover:tw-bg-[#c83045]">{{ section.settings.button_label | escape }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Queemchi producto principal",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Nuestro producto" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Del clásico al antojo diario." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Queemchi es una base flexible para comer mejor, cocinar más rico y descubrir nuevos sabores sin complicarte.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Product image" },
+    { "type": "text", "id": "image_alt", "label": "Image alt", "default": "Frasco de kimchi Queemchi" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Ver presentaciones" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Fermentación natural" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Lotes pequeños, ingredientes reales y paciencia." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Queemchi producto principal",
+      "blocks": [
+        { "type": "feature" },
+        { "type": "feature" },
+        { "type": "feature" },
+        { "type": "feature" }
+      ]
+    }
+  ]
+}
+{% endschema %}

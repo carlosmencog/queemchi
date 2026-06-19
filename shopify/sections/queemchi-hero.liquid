@@ -1,0 +1,85 @@
+<section id="queemchi-hero-{{ section.id }}" data-qm-section="hero" class="tw-relative tw-overflow-hidden tw-bg-[#e03d54] tw-text-white">
+  <div class="tw-mx-auto tw-grid tw-min-h-[88vh] tw-max-w-7xl tw-content-center tw-gap-10 tw-px-5 tw-py-20 md:tw-grid-cols-[1fr_1.05fr] md:tw-items-center lg:tw-px-8">
+    <div class="tw-relative tw-z-10 tw-max-w-3xl">
+      {% if section.settings.eyebrow != blank %}
+        <p data-qm-reveal class="tw-mb-5 tw-inline-flex tw-items-center tw-gap-2 tw-rounded-full tw-bg-white/15 tw-px-4 tw-py-2 tw-text-sm tw-font-semibold tw-tracking-wide">
+          <span class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-[#f5a79e]"></span>{{ section.settings.eyebrow | escape }}
+        </p>
+      {% endif %}
+      <h1 data-qm-hero-title class="tw-text-6xl tw-font-black tw-leading-[0.9] tw-tracking-normal md:tw-text-8xl lg:tw-text-9xl">{{ section.settings.heading | escape }}</h1>
+      {% if section.settings.subheading != blank %}
+        <p data-qm-reveal class="tw-mt-5 tw-text-3xl tw-font-bold tw-leading-tight md:tw-text-5xl">{{ section.settings.subheading | escape }}</p>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div data-qm-reveal class="tw-mt-7 tw-max-w-xl tw-text-lg tw-leading-8 tw-text-white/90">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.button_label != blank %}
+        <a data-qm-reveal href="{{ section.settings.button_link | default: '#pricing' }}" class="tw-mt-8 tw-inline-flex tw-items-center tw-rounded-full tw-bg-white tw-px-7 tw-py-4 tw-text-base tw-font-extrabold tw-text-[#e03d54] tw-transition hover:tw-translate-y-[-2px] hover:tw-bg-[#f5a79e]">
+          {{ section.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="tw-relative tw-min-h-[420px] md:tw-min-h-[620px]" role="group" aria-label="{{ section.settings.gallery_label | escape }}">
+      <div class="tw-absolute tw-inset-x-4 tw-top-10 tw-grid tw-grid-cols-2 tw-gap-4 tw-rotate-[-8deg] sm:tw-grid-cols-3">
+        {% for block in section.blocks %}
+          {% if block.type == 'image_tile' %}
+            <div data-qm-tile class="tw-aspect-[4/5] tw-overflow-hidden tw-rounded-[2rem] tw-bg-[#e98080] tw-shadow-2xl tw-will-change-transform {% cycle 'tw-translate-y-8', '-tw-translate-y-4', 'tw-translate-y-14', 'tw-translate-y-0', 'tw-translate-y-10', '-tw-translate-y-8' %}" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                {% liquid
+                  assign image_loading = 'lazy'
+                  if forloop.first
+                    assign image_loading = 'eager'
+                  endif
+                %}
+                {{ block.settings.image | image_url: width: 900 | image_tag: loading: image_loading, class: 'tw-h-full tw-w-full tw-object-cover', alt: block.settings.alt }}
+              {% else %}
+                <div class="tw-flex tw-h-full tw-items-center tw-justify-center tw-bg-[#f5a79e] tw-p-6 tw-text-center tw-text-xl tw-font-black tw-text-[#e03d54]">{{ block.settings.alt | default: 'Queemchi' }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Queemchi hero",
+  "tag": "section",
+  "class": "section-queemchi-hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sabor coreano" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Queemchi" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Kimchi vivo, hecho cerca de ti" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Kimchi artesanal, fermentado naturalmente, con ingredientes frescos y mucho sabor. Una forma fácil de sumar probióticos, picante y carácter a tus comidas de todos los días.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Haz tu pedido" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "gallery_label", "label": "Gallery accessibility label", "default": "Galería de productos Queemchi" }
+  ],
+  "blocks": [
+    {
+      "type": "image_tile",
+      "name": "Image tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Kimchi Queemchi" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Queemchi hero",
+      "blocks": [
+        { "type": "image_tile" },
+        { "type": "image_tile" },
+        { "type": "image_tile" },
+        { "type": "image_tile" },
+        { "type": "image_tile" },
+        { "type": "image_tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

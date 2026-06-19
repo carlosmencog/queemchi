@@ -17,6 +17,7 @@ const asset = (path: string) => `${import.meta.env.BASE_URL.replace(/\/?$/, '/')
     <meta content="summary_large_image" name="twitter:card" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Astro" name="generator" />
+    <base href={asset('')} />
     <link href={asset('css/normalize.css')} rel="stylesheet" type="text/css" />
     <link href={asset('css/webflow.css')} rel="stylesheet" type="text/css" />
     <link href={asset('css/mvb-c3675c.webflow.css')} rel="stylesheet" type="text/css" />

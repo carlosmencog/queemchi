@@ -1,0 +1,184 @@
+{% liquid
+  assign product = section.settings.product
+  assign conservation = product.metafields.custom.conservation_message
+  assign spice_level = product.metafields.custom.spice_level
+  assign ingredients = product.metafields.custom.ingredients
+  assign benefits = product.metafields.custom.benefits
+%}
+
+{% liquid
+  assign form_id = 'QueemchiProductForm-' | append: section.id
+  assign variant_select_id = 'QueemchiVariantSelect-' | append: section.id
+  assign price_id = 'QueemchiVariantPrice-' | append: section.id
+  assign button_id = 'QueemchiAddToCart-' | append: section.id
+%}
+
+<section id="producto-{{ section.id }}" data-qm-section="single-product" class="tw-bg-[#fff7f5] tw-px-5 tw-py-16 md:tw-py-24">
+  <div class="tw-mx-auto tw-grid tw-max-w-7xl tw-gap-10 md:tw-grid-cols-2 md:tw-items-center">
+    <div data-qm-reveal>
+      {% if product.featured_image != blank %}
+        {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'tw-w-full tw-rounded-[2rem] tw-object-cover tw-shadow-xl', alt: product.title }}
+      {% elsif section.settings.fallback_image != blank %}
+        {{ section.settings.fallback_image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'tw-w-full tw-rounded-[2rem] tw-object-cover tw-shadow-xl', alt: section.settings.heading }}
+      {% else %}
+        <div class="tw-aspect-square tw-rounded-[2rem] tw-bg-[#f5a79e]"></div>
+      {% endif %}
+    </div>
+
+    <div data-qm-reveal>
+      <p class="tw-mb-4 tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.18em] tw-text-[#e98080]">
+        {{ section.settings.eyebrow | escape }}
+      </p>
+
+      <h1 class="tw-text-4xl tw-font-black tw-leading-tight tw-text-[#e03d54] md:tw-text-6xl">
+        {% if product != blank %}{{ product.title | escape }}{% else %}{{ section.settings.heading | escape }}{% endif %}
+      </h1>
+
+      {% if product.description != blank %}
+        <div class="tw-mt-6 tw-text-lg tw-leading-8 tw-text-[#7a2932]">
+          {{ product.description }}
+        </div>
+      {% elsif section.settings.description != blank %}
+        <div class="tw-mt-6 tw-text-lg tw-leading-8 tw-text-[#7a2932]">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+
+      {% if product != blank %}
+        {% form 'product', product, class: 'tw-mt-8 tw-space-y-5 product-form', id: form_id %}
+          <div>
+            <label for="{{ variant_select_id }}" class="tw-mb-2 tw-block tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.14em] tw-text-[#e03d54]">
+              {{ section.settings.variant_label | escape }}
+            </label>
+            <select
+              id="{{ variant_select_id }}"
+              name="id"
+              class="tw-w-full tw-rounded-full tw-border tw-border-[#f5a79e] tw-bg-white tw-px-5 tw-py-4 tw-text-base tw-font-bold tw-text-[#7a2932]"
+            >
+              {% for variant in product.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money }}"
+                  data-available="{{ variant.available }}"
+                  {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                >
+                  {{ variant.title }}{% unless variant.available %} - Agotado{% endunless %}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="tw-rounded-[1.5rem] tw-bg-white tw-p-5">
+            <p class="tw-text-sm tw-font-bold tw-uppercase tw-tracking-[0.14em] tw-text-[#e98080]">{{ section.settings.price_label | escape }}</p>
+            <p id="{{ price_id }}" aria-live="polite" class="tw-mt-1 tw-text-4xl tw-font-black tw-text-[#e03d54]">
+              {{ product.selected_or_first_available_variant.price | money }}
+            </p>
+          </div>
+
+          <button
+            id="{{ button_id }}"
+            type="submit"
+            name="add"
+            class="product-form__submit tw-inline-flex tw-w-full tw-justify-center tw-rounded-full tw-bg-[#e03d54] tw-px-8 tw-py-4 tw-text-base tw-font-extrabold tw-text-white hover:tw-bg-[#c83045] disabled:tw-cursor-not-allowed disabled:tw-opacity-50"
+            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+          >
+            {{ section.settings.add_to_cart_label | escape }}
+          </button>
+        {% endform %}
+      {% endif %}
+
+      <div class="tw-mt-8 tw-grid tw-gap-4 sm:tw-grid-cols-2">
+        {% if conservation != blank %}
+          <article class="tw-rounded-[1.5rem] tw-bg-white tw-p-5">
+            <h2 class="tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.14em] tw-text-[#e98080]">{{ section.settings.conservation_label | escape }}</h2>
+            <div class="tw-mt-2 tw-text-base tw-leading-7 tw-text-[#7a2932]">{{ conservation | metafield_tag }}</div>
+          </article>
+        {% endif %}
+
+        {% if spice_level != blank %}
+          <article class="tw-rounded-[1.5rem] tw-bg-white tw-p-5">
+            <h2 class="tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.14em] tw-text-[#e98080]">{{ section.settings.spice_label | escape }}</h2>
+            <p class="tw-mt-2 tw-text-2xl tw-font-black tw-text-[#e03d54]">{{ spice_level.value }}</p>
+          </article>
+        {% endif %}
+      </div>
+
+      {% if ingredients != blank %}
+        <div class="tw-mt-6 tw-rounded-[1.5rem] tw-bg-white tw-p-5">
+          <h2 class="tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.14em] tw-text-[#e98080]">{{ section.settings.ingredients_label | escape }}</h2>
+          <ul class="tw-mt-3 tw-flex tw-flex-wrap tw-gap-2">
+            {% for ingredient in ingredients.value %}
+              <li class="tw-rounded-full tw-bg-[#f5a79e] tw-px-4 tw-py-2 tw-text-sm tw-font-bold tw-text-[#7a2932]">{{ ingredient }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if benefits != blank %}
+        <div class="tw-mt-6 tw-rounded-[1.5rem] tw-bg-white tw-p-5">
+          <h2 class="tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.14em] tw-text-[#e98080]">{{ section.settings.benefits_label | escape }}</h2>
+          <ul class="tw-mt-3 tw-space-y-2">
+            {% for benefit in benefits.value %}
+              <li class="tw-flex tw-gap-3 tw-text-base tw-leading-7 tw-text-[#7a2932]">
+                <span class="tw-mt-2 tw-h-2 tw-w-2 tw-shrink-0 tw-rounded-full tw-bg-[#e03d54]"></span>
+                <span>{{ benefit }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const section = document.getElementById('producto-{{ section.id }}');
+    if (!section) return;
+
+    const select = section.querySelector('#{{ variant_select_id }}');
+    const price = section.querySelector('#{{ price_id }}');
+    const button = section.querySelector('#{{ button_id }}');
+
+    if (!select || !price || !button) return;
+
+    const updateVariant = () => {
+      const option = select.options[select.selectedIndex];
+      price.textContent = option.dataset.price || '';
+      button.disabled = option.dataset.available !== 'true';
+      button.textContent = button.disabled
+        ? {{ section.settings.sold_out_label | json }}
+        : {{ section.settings.add_to_cart_label | json }};
+    };
+
+    select.addEventListener('change', updateVariant);
+    updateVariant();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Queemchi producto único",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Producto Kimchi Queemchi" },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Producto principal" },
+    { "type": "text", "id": "heading", "label": "Fallback heading", "default": "Kimchi Queemchi" },
+    { "type": "richtext", "id": "description", "label": "Fallback description", "default": "<p>Kimchi artesanal, fermentado naturalmente, con ingredientes frescos y mucho sabor.</p>" },
+    { "type": "text", "id": "variant_label", "label": "Variant label", "default": "Elige tu tamaño" },
+    { "type": "text", "id": "price_label", "label": "Price label", "default": "Precio" },
+    { "type": "text", "id": "add_to_cart_label", "label": "Add to cart label", "default": "Agregar al carrito" },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Agotado" },
+    { "type": "text", "id": "conservation_label", "label": "Conservation label", "default": "Conservación" },
+    { "type": "text", "id": "spice_label", "label": "Spice label", "default": "Nivel de picante" },
+    { "type": "text", "id": "ingredients_label", "label": "Ingredients label", "default": "Ingredientes" },
+    { "type": "text", "id": "benefits_label", "label": "Benefits label", "default": "Beneficios" }
+  ],
+  "presets": [
+    {
+      "name": "Queemchi producto único"
+    }
+  ]
+}
+{% endschema %}

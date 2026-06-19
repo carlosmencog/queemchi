@@ -1,0 +1,35 @@
+<section id="contacto" data-qm-section="final-cta" class="tw-bg-white tw-px-5 tw-py-16 md:tw-py-24">
+  <div data-qm-reveal class="tw-mx-auto tw-max-w-5xl tw-rounded-[2.5rem] tw-bg-[#f5a79e] tw-p-8 tw-text-center md:tw-p-16">
+    <p class="tw-text-sm tw-font-extrabold tw-uppercase tw-tracking-[0.18em] tw-text-[#e03d54]">{{ section.settings.eyebrow | escape }}</p>
+    <h2 class="tw-mx-auto tw-mt-4 tw-max-w-4xl tw-text-4xl tw-font-black tw-leading-tight tw-text-[#e03d54] md:tw-text-7xl">{{ section.settings.heading | escape }}</h2>
+    {% if section.settings.text != blank %}
+      <div class="tw-mx-auto tw-mt-6 tw-max-w-2xl tw-text-lg tw-leading-8 tw-text-[#7a2932]">{{ section.settings.text }}</div>
+    {% endif %}
+    <div class="tw-mt-8 tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 sm:tw-flex-row">
+      {% if section.settings.primary_label != blank %}
+        <a href="{{ section.settings.primary_link | default: '#pricing' }}" class="tw-inline-flex tw-rounded-full tw-bg-[#e03d54] tw-px-8 tw-py-4 tw-font-extrabold tw-text-white hover:tw-bg-[#c83045]">{{ section.settings.primary_label | escape }}</a>
+      {% endif %}
+      {% if section.settings.secondary_label != blank %}
+        <a href="{{ section.settings.secondary_link | default: '#faq' }}" class="tw-inline-flex tw-rounded-full tw-border tw-border-[#e03d54] tw-px-8 tw-py-4 tw-font-extrabold tw-text-[#e03d54] hover:tw-bg-white">{{ section.settings.secondary_label | escape }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Queemchi CTA final",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Empieza aquí" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "¿Listo para darle vida a tu comida?" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Pide tu primer frasco y descubre por qué una cucharada puede cambiar toda la comida.</p>" },
+    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Haz tu pedido" },
+    { "type": "url", "id": "primary_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Resolver dudas" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link" }
+  ],
+  "presets": [
+    { "name": "Queemchi CTA final" }
+  ]
+}
+{% endschema %}

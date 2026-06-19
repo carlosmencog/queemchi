@@ -3,3 +3,6 @@ dist/
 .astro/
 server.log
 server.err.log
+astro-dev.out.log
+astro-dev.err.log
+deliverables/
