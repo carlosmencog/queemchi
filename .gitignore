@@ -1,8 +1,10 @@
-node_modules/
-dist/
-.astro/
-server.log
-server.err.log
-astro-dev.out.log
-astro-dev.err.log
-deliverables/
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.shopify
